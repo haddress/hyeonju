@@ -1,6 +1,6 @@
 package com.edu;
 
-import java.util.Scanner;
+import java.util.Scanner; 
 
 public class ScannerExample { // 원래 풀네임은 com.edu.ScannerExample
 	public static void main(String[] args) {

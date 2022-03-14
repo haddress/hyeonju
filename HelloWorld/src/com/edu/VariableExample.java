@@ -1,5 +1,5 @@
 package com.edu;
-
+ 
 public class VariableExample {
 	public static void main(String[] args) {
 		// 변수의 타입

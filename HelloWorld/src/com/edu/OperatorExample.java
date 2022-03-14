@@ -3,7 +3,7 @@ package com.edu;
 public class OperatorExample {
 	public static void main(String[] args) {
 		int num1, num2, result;
-		
+		 
 		num1 = 10;
 		num2 = 100;
 		

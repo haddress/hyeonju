@@ -1,7 +1,7 @@
 package com.edu;
 
 import java.util.Scanner;
-
+ 
 public class CalExample {
 	public static void main(String[] args) {
 		// 초(ex. 100초) 입력 -> 시/분/초 로 변경하기

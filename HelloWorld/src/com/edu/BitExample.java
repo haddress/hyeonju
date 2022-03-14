@@ -6,7 +6,7 @@ public class BitExample {
 		int result = num << 3;
 		System.out.println(result);
 		
-		int val = 100; // 오른쪽에 있는 값을 왼쪽 val에 담겠다는 뜻
+		int val = 100; // 오른쪽에 있는 값을 왼쪽 val에 담겠다는 뜻 
 		val = val + 10;
 		System.out.println(val); // 110
 		val += 20;

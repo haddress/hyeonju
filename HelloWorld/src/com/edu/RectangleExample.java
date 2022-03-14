@@ -1,6 +1,6 @@
 package com.edu;
 
-import java.util.Scanner;
+import java.util.Scanner; 
 
 public class RectangleExample {
 	public static void main(String[] args) {
