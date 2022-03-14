@@ -1,7 +1,7 @@
 package com.edu;
 
 public class Variables {
-	public static void mai n(String[] args) {
+	public static void main(String[] args) {
 		// 변수 : 메모리공간에 이름을 지정하고 이름에다 값을 할당하는 것 ex) age라는 이름에다 값 20을 저장
 		int age = 20; // 20 == 30
 		int num1 = 60;
