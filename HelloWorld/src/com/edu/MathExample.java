@@ -17,11 +17,12 @@ public class MathExample {
 		int remain = num1 % num2;
 		
 		System.out.println();
-		System.out.println("두 수의 합: " + plus);
+		System.out.println("두 수의 합: " + plus); // System.out.println("두 수의 합: " + (num1 + num2));
 		System.out.println("두 수의 차: " + minus);
 		System.out.println("두 수의 곱: " + multi);
 		System.out.println("두 수의 몫: " + divi);
 		System.out.println("두 수를 나눈 나머지: " + remain);
+		
 		
 		scn.close();
 	}
