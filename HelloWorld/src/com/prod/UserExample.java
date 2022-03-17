@@ -31,7 +31,7 @@ public class UserExample {
 		User[] users = { u1, u2, u3, u4 };
 
 		for (int i = 0; i < users.length; i++) {
-			if (users[i].getUserGrade() == "A") {
+			if (users[i].getUserGrade().equals("A")) {
 				System.out.println("===================");
 				System.out.println("사용자아이디: " + users[i].getUserId());
 				System.out.println("사용자등급: " + users[i].getUserGrade());
@@ -39,7 +39,13 @@ public class UserExample {
 				System.out.println("사용자포인트: " + users[i].getUserPoint());
 				System.out.println("===================");
 			}
-			else if (users[i].getUserPoint() >= 1000) {
+			
+		}
+		
+		System.out.println();
+		
+		for (int i = 0; i<users.length; i++) {
+			if (users[i].getUserPoint() >= 1000) {
 				System.out.println("===================");
 				System.out.println("사용자아이디: " + users[i].getUserId());
 				System.out.println("사용자등급: " + users[i].getUserGrade());
@@ -47,6 +53,7 @@ public class UserExample {
 				System.out.println("사용자포인트: " + users[i].getUserPoint());
 				System.out.println("===================");
 			}
+
 		}
 
 	}
