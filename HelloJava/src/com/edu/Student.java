@@ -43,7 +43,7 @@ public class Student { // class는 default 아니면 public
 		return this.getSumScore() / 3.0; // getSumScore는 하나밖에 없어서 this 안써도 특정되니까 안써도 상관x
 	}
 
-	// 영어, 구겅, 수학 ==> 합계점수
+	// 영어, 국어, 수학 ==> 합계점수
 	int getSumScore() {
 		if (this.korScore != -1 && this.engScore != -1 && this.mathScore != -1) {
 			return this.korScore + this.engScore + this.mathScore;

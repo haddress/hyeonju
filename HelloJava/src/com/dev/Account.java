@@ -4,25 +4,38 @@ public class Account {
 	// 계좌정보, 예금주, 예금액
 	
 	//field
-	private String accNO;
+	private String accNo;
 	private String accName;
 	private int money;
 	
 	// constructor(생성자). 목적은 필드의 초기값을 지정
-	public Account(String accNO, String accName, int money) {
+	// Constructor overloading..
+	public Account() {
+		System.out.println("기본 생성자 호출..");
+	}
+	public Account(int money) {
+		System.out.println("기본 생성자 호출..");
+	}
+	
+	public Account(String accNo, String accName, int money) {
 		super();
-		this.accNO = accNO;
+		this.accNo = accNo;
 		this.accName = accName;
 		this.money = money;
+		
+//		public static String bankName;
+//		static {
+//			bankName = "한일은행";
+//		}
 	}
 	
 	// method
-	public String getAccNO() {
-		return accNO;
+	public String getAccNo() {
+		return accNo;
 	}
 	
-	public void setAccNO(String accNO) {
-		this.accNO = accNO;
+	public void setAccNO(String accNo) {
+		this.accNo = accNo;
 	}
 	public String getAccName() {
 		return accName;
@@ -39,7 +52,7 @@ public class Account {
 
 	@Override
 	public String toString() {
-		return "Account [accNO=" + accNO + ", accName=" + accName + ", money=" + money + "]";
+		return "Account [accNo=" + accNo + ", accName=" + accName + ", money=" + money + "]";
 	}
 	
 	
