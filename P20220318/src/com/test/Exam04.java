@@ -9,7 +9,7 @@ public class Exam04 {
 		int max = num[0];
 
 		for (int i = 0; i < num.length; i++) {
-			num[i] = ((int) ((Math.random()) * 6) + 1);
+			num[i] = (int) (Math.random() * 6) + 1;
 			System.out.print(num[i] + "\t");
 			if (num[i] > max) {
 				max = num[i];

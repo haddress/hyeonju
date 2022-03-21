@@ -26,8 +26,8 @@ public class Exam03 {
 		for (int i = 1; i < num.length; i++) {
 			if (num[i] > max) {
 				max = num[i];
-				continue;
 			}
+			
 			System.out.println("가장 큰 값: " + max);
 
 		}
