@@ -3,8 +3,23 @@ package com.edu.except0321;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+// 클래스A, 클래스B...클래스Z
+// 클래스 main => main 메소드 포함
+
+
 public class LibraryExe {
-	public static void main(String[] args) {
+	private static LibraryExe singleton = new LibraryExe(); // private로 singleton 외부에서 접근 불가
+	private LibraryExe() {
+		
+	}
+	
+	public static LibraryExe getInstance() { // getInstance는 정적메소드. singleton이 LibraryExe 안에서 getInstane 메소드로 호출해야 사용 가능
+		return singleton;
+		
+	}
+	
+//	public static void main(String[] args) {
+	public void run() {
 		// 책 체목, 저자, 가격 -> 저장
 		// 리스트 보여주기
 
