@@ -4,7 +4,10 @@ public class ExceptionExample2 {
 	public static void main(String[] args) {
 
 		// Object(제일 상위의 클래스)
+		Object obj = new String();
+		
 
+		// 
 		try {
 			Class.forName("java.lang.String1");
 		} catch (ClassNotFoundException/* 예외처리 */ el) {
