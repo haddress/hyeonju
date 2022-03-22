@@ -1,4 +1,4 @@
-package com.edu.nested;
+package com.edu.nested0322;
 
 public class Outer {
 	private String field1;

@@ -1,10 +1,23 @@
 package com.edu.except0322;
 
+import java.util.Calendar;
+import java.util.Scanner;
+
+//class String2 extends String {
+//	// public final String {} // 상속불가능한 클래스
+//}
+
+
 public class ExceptionExample2 {
 	public static void main(String[] args) {
 
 		// Object(제일 상위의 클래스)
 		Object obj = new String();
+		obj = new Scanner(System.in);
+		obj = Calendar.getInstance();
+		
+		obj = new Object();
+		System.out.println("obj의 해시코드: " + obj.hashCode());
 		
 
 		// 

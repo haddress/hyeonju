@@ -1,4 +1,4 @@
-package com.edu.nested;
+package com.edu.nested0322;
 
 public class OuterExample {
 	public static void main(String[] args) {
