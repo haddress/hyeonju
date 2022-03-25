@@ -1,5 +1,8 @@
 package com.edu.collect0323;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -14,19 +17,38 @@ public class StudentApp {
 
 	// 생성자
 	public StudentApp() {
-		list.add(new Student(101, "권가희", 50, 60)); // 리스트 컬렉션에 값을 담음
-		list.add(new Student(102, "유해정", 70, 80));
-		list.add(new Student(103, "이유빈", 90, 70));
-		list.add(new Student(104, "권가희", 100, 100));
+//		list.add(new Student(101, "권가희", 50, 60)); // 리스트 컬렉션에 값을 담음
+//		list.add(new Student(102, "유해정", 70, 80));
+//		list.add(new Student(103, "이유빈", 90, 70));
+//		list.add(new Student(104, "권가희", 100, 100));
 	}
 
 	// 내부클래스(멤버클래스)
-	class StudentServiceImpl implements StudentService { // 규칙이 지정된 미완성인 인터페이스를 실체로 구현하기 위해 ..impl 사용
+	class StudentServiceFile implements StudentService { // 규칙이 지정된 미완성인 인터페이스를 실체로 구현하기 위해 ..impl 사용
 
 		@Override
 		public void insertStudent(Student student) {
 			list.add(student); // 추가, 리스트 컬렉션에 student값을 받아서 추가
 
+		}
+
+		@Override
+		public void saveToFile() {
+			try {
+				FileWriter fw = new FileWriter("studentList.data");
+				BufferedWriter bw = new BufferedWriter(fw);
+
+				for (Student stud : list) {
+					bw.write(stud.getStuNum() + ", " + stud.getStuName() + ", " + stud.getEngScore() + ", "
+							+ stud.getKorScore());
+				}
+				bw.close();
+				fw.close();
+
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
 		}
 
 		@Override
@@ -82,9 +104,9 @@ public class StudentApp {
 
 	} // StudentServiceImpl 클래스 끝
 
-	// StudentApp에서 만든 기능을 단순히 호출하도록 만든 메인 기능을 하는 메소드
+	// StudentApp에서 만든 기능을 단순히 호출하도록 만든 '메인 기능'을 하는 메소드
 	public void execute() {
-		StudentService service = new StudentServiceImpl(); // 인터페이스 생성. StudentService는 인터페이스, StudentServiceImpl은 구현객체
+		StudentService service = new StudentServiceFile(); // 인터페이스 생성. StudentService는 인터페이스, StudentServiceImpl은 구현객체
 		// 메뉴 : 1.추가 2.리스트 3.한건조회 4.수정 5.삭제 6.이름조회 9.종료
 		while (true) {
 			System.out.println("1.추가 2.리스트 3.한건조회 4.수정 5.삭제 6.이름조회 9.종료");
@@ -156,6 +178,7 @@ public class StudentApp {
 
 			} else if (menu == 9) {
 				System.out.println("프로그램을 종료합니다.");
+				service.saveToFile();
 				break;
 			}
 		} // while 끝

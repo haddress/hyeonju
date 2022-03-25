@@ -10,6 +10,7 @@ public interface StudentService { // 아래와 같은 기능을 구현하도록 
 	public void modifyStudent(Student student); // 한건수정
 	public void removeStudent(int stuNo); // 한건삭제
 	public List<Student> searchStudent(String name); // 이름조회, 여러건 조회를 위해 List<Student> 컬렉션타입으로 반환 설정
+	public void saveToFile();
 
 	
 
