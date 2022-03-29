@@ -1,6 +1,7 @@
 package com.edu.collect0323;
 
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -11,6 +12,7 @@ public class StudentApp {
 	// 배열은 크기를 한 번 정하면 변경하기가 어렵기때문에 컬렉션을 사용
 	// 배열에서는 class만 사용하여 데이터타입을 정리, 컬렉션에서는 인터페이스와 nested class까지 기능 확장해서 사용 가능
 
+	// 필드
 	List<Student> list = new ArrayList<Student>(); // list라는 필드는 StudentApp 클래스가 아닌 곳에서는 공유 불가하므로 아래에 생성한
 													// StudentService라는 인터페이스를 통해 읽어올 수 있도록
 	Scanner scn = new Scanner(System.in);
@@ -24,7 +26,9 @@ public class StudentApp {
 	}
 
 	// 내부클래스(멤버클래스)
-	class StudentServiceFile implements StudentService { // 규칙이 지정된 미완성인 인터페이스를 실체로 구현하기 위해 ..impl 사용
+	// StudentServiceImpl(중첩클래스의 기능을 대체)
+	// 입력, 수정, 삭제했던 내역들이 파일에 저장이 되도록
+	class StudentServiceImpl implements StudentService { // 규칙이 지정된 미완성인 인터페이스를 실체로 구현하기 위해 ..impl 사용
 
 		@Override
 		public void insertStudent(Student student) {
@@ -34,21 +38,8 @@ public class StudentApp {
 
 		@Override
 		public void saveToFile() {
-			try {
-				FileWriter fw = new FileWriter("studentList.data");
-				BufferedWriter bw = new BufferedWriter(fw);
+	
 
-				for (Student stud : list) {
-					bw.write(stud.getStuNum() + ", " + stud.getStuName() + ", " + stud.getEngScore() + ", "
-							+ stud.getKorScore());
-				}
-				bw.close();
-				fw.close();
-
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			
 		}
 
 		@Override
@@ -104,9 +95,10 @@ public class StudentApp {
 
 	} // StudentServiceImpl 클래스 끝
 
-	// StudentApp에서 만든 기능을 단순히 호출하도록 만든 '메인 기능'을 하는 메소드
+	// StudentApp에서 만든 기능을 단순히 호출하도록 만든 '메인 기능'을 하는 execute() 메소드
 	public void execute() {
-		StudentService service = new StudentServiceFile(); // 인터페이스 생성. StudentService는 인터페이스, StudentServiceImpl은 구현객체
+		StudentService service = new StudentServiceImpl(); // 인터페이스 생성. StudentService는 인터페이스, StudentServiceImpl은 구현객체
+		service = new StudentServiceFile(); // 동일한 기능을 가진 인터페이스를 사용하면 똑같은 기능을 가지고 있기 때문에 구현가능
 		// 메뉴 : 1.추가 2.리스트 3.한건조회 4.수정 5.삭제 6.이름조회 9.종료
 		while (true) {
 			System.out.println("1.추가 2.리스트 3.한건조회 4.수정 5.삭제 6.이름조회 9.종료");
