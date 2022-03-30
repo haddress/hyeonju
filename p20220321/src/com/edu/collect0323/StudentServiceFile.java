@@ -37,9 +37,9 @@ public class StudentServiceFile implements StudentService {
 	}
 
 	@Override
-	public Student getStudent(int sno) {
+	public Student getStudent(int stuNum) {
 		for (int i = 0; i < list.size(); i++) {
-			if (list.get(i).getStuNum() == sno) {
+			if (list.get(i).getStuNum() == stuNum) {
 				return list.get(i);
 			}
 		}
@@ -64,9 +64,9 @@ public class StudentServiceFile implements StudentService {
 	}
 
 	@Override
-	public void removeStudent(int stuNo) {
+	public void removeStudent(int stuNum) {
 		for (int i = 0; i < list.size(); i++) {
-			if (list.get(i).getStuNum() == stuNo) {
+			if (list.get(i).getStuNum() == stuNum) {
 				list.remove(i);
 			}
 		}
@@ -74,10 +74,10 @@ public class StudentServiceFile implements StudentService {
 	}
 
 	@Override
-	public List<Student> searchStudent(String name) {
+	public List<Student> searchStudent(String stuName) {
 		List<Student> searchList = new ArrayList<Student>();
 		for (int i = 0; i < list.size(); i++) {
-			if (list.get(i).getStuName().equals(name)) {
+			if (list.get(i).getStuName().equals(stuName)) {
 				searchList.add(list.get(i));
 			}
 		}

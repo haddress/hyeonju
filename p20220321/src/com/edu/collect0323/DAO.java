@@ -1,4 +1,4 @@
-package com.prod.emp0329;
+package com.edu.collect0323;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

@@ -38,14 +38,13 @@ public class StudentApp {
 
 		@Override
 		public void saveToFile() {
-	
 
 		}
 
 		@Override
-		public Student getStudent(int sno) { // 학생번호로 한 건만 조회
+		public Student getStudent(int stuNum) { // 학생번호로 한 건만 조회
 			for (int i = 0; i < list.size(); i++) { // list에 담겨있는 건 개수(?)
-				if (list.get(i)/* list클래스에 있는 건을 갖고(get)오겠다 */.getStuNum() == sno) {
+				if (list.get(i)/* list클래스에 있는 건을 갖고(get)오겠다 */.getStuNum() == stuNum) {
 					return list.get(i); // 같은 학생 번호가 있으면 해당 번호를 student 클래스 리턴
 				}
 			}
@@ -72,21 +71,21 @@ public class StudentApp {
 		}
 
 		@Override
-		public void removeStudent(int stuNo) {
+		public void removeStudent(int stuNum) {
 			for (int i = 0; i < list.size(); i++) {
-				if (list.get(i).getStuNum() == stuNo) {
+				if (list.get(i).getStuNum() == stuNum) {
 					list.remove(i); // 리스트 컬렉션에서 해당 칸(i) 삭제
 				}
 			}
 		}
 
 		@Override
-		public List<Student> searchStudent(String name) {
+		public List<Student> searchStudent(String stuName) {
 			List<Student> searchList = new ArrayList<Student>();
 			// 동일한 이름을 찾았다고해서 종료시키면 안됨. 컬렉션에 있는 갯수만큼 반복
 			for (int i = 0; i < list.size(); i++) {
 				// 같은 이름이 있는지 찾아보고 있으면 searchList.add()로 추가
-				if (list.get(i).getStuName().equals(name)) {
+				if (list.get(i).getStuName().equals(stuName)) {
 					searchList.add(list.get(i));
 				}
 			}
@@ -98,7 +97,8 @@ public class StudentApp {
 	// StudentApp에서 만든 기능을 단순히 호출하도록 만든 '메인 기능'을 하는 execute() 메소드
 	public void execute() {
 		StudentService service = new StudentServiceImpl(); // 인터페이스 생성. StudentService는 인터페이스, StudentServiceImpl은 구현객체
-		service = new StudentServiceFile(); // 동일한 기능을 가진 인터페이스를 사용하면 똑같은 기능을 가지고 있기 때문에 구현가능
+//		service = new StudentServiceFile(); // 동일한 기능을 가진 인터페이스를 사용하면 똑같은 기능을 가지고 있기 때문에 구현가능
+		service = new StudentServiceOracle();
 		// 메뉴 : 1.추가 2.리스트 3.한건조회 4.수정 5.삭제 6.이름조회 9.종료
 		while (true) {
 			System.out.println("1.추가 2.리스트 3.한건조회 4.수정 5.삭제 6.이름조회 9.종료");
@@ -109,7 +109,7 @@ public class StudentApp {
 			if (menu == 1) {
 				// 학생정보 추가입력하기 : 학생번호, 학생이름, 영어점수, 국어점수
 				System.out.print("학생번호입력>> ");
-				int stuNo = scn.nextInt();
+				int stuNum = scn.nextInt();
 				System.out.print("학생이름입력>> ");
 				String stuName = scn.next();
 				System.out.print("영어점수입력>> ");
@@ -117,7 +117,7 @@ public class StudentApp {
 				System.out.print("국어점수입력>> ");
 				int korScore = scn.nextInt();
 
-				Student s1 = new Student(stuNo, stuName, engScore, korScore);
+				Student s1 = new Student(stuNum, stuName, engScore, korScore);
 				service.insertStudent(s1); // insertStudent 메소드에 매개값 s1 넣어줌. 한 건 입력
 
 			} else if (menu == 2) {
@@ -128,8 +128,8 @@ public class StudentApp {
 
 			} else if (menu == 3) { // 한 건 조회
 				System.out.print("조회될 학생번호 입력>> ");
-				int stuNo = scn.nextInt();
-				Student student = service.getStudent(stuNo);
+				int stuNum = scn.nextInt();
+				Student student = service.getStudent(stuNum);
 				if (student == null) {
 					System.out.println("조회된 결과가 없습니다.");
 				} else {
@@ -138,21 +138,21 @@ public class StudentApp {
 
 			} else if (menu == 4) {
 				System.out.print("수정할 학생번호입력>> ");
-				int stuNo = scn.nextInt();
+				int stuNum = scn.nextInt();
 				System.out.print("영어점수입력>> ");
 				int engScore = scn.nextInt();
 				System.out.print("국어점수입력>> ");
 				int korScore = scn.nextInt();
 
-				Student s1 = new Student(stuNo, null, engScore, korScore);
+				Student s1 = new Student(stuNum, null, engScore, korScore);
 				service.modifyStudent(s1);
 				System.out.println("처리가 완료되었습니다.");
 
 			} else if (menu == 5) {
 				System.out.print("삭제할 학생번호입력>> ");
-				int stuNo = scn.nextInt();
+				int stuNum = scn.nextInt();
 
-				service.removeStudent(stuNo);
+				service.removeStudent(stuNum);
 				System.out.println("처리가 완료되었습니다.");
 
 			} else if (menu == 6) {
