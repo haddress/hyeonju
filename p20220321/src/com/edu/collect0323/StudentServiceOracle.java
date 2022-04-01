@@ -82,7 +82,10 @@ public class StudentServiceOracle extends DAO implements StudentService {
 	@Override
 	public void modifyStudent(Student student) { // 한건수정
 		conn = getConnect();
-		String sql = "update student_info " + "set eng_score=?, " + "     kor_score=? " + "WHERE student_no=?";
+		String sql = "update student_info " 
+				+ "set eng_score=?, " 
+				+ "     kor_score=? " 
+				+ "WHERE student_no=?";
 		try {
 			psmt = conn.prepareStatement(sql);
 			psmt.setInt(1, student.getEngScore());

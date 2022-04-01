@@ -4,9 +4,10 @@ public class User {
 
 	private String id;
 	private String pw;
-	
+	private String phone;
+
 	public User() {
-		
+
 	}
 
 	public User(String id, String pw) {
@@ -29,6 +30,14 @@ public class User {
 
 	public void setPw(String pw) {
 		this.pw = pw;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
 	}
 
 }
