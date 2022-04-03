@@ -15,17 +15,25 @@ public interface BookService {
 	public List<Book> getBook(String category, String title); // 도서검색
 
 	public void rentBook(int amount, String title, String borrower); // 도서대여
+	
+	public List<Book> possibleList(); // 대여가능한 목록
 
 	public void returnBook(int amount, String title); // 도서반납
+	
+	public List<Book> rentList(); // 대여한 목록
 
 	public void insertBook(Book book); // 도서등록
-
-	public void modifyPw(String pw); // 회원정보수정
 	
-	public void midifyBook(String title); // 도서수정 
+	public List<Book> insertList(); // 등록한도서목록
 
-	public void removeBook(String title); // 도서삭제
+	public void modifyPhone(User user); // 회원정보수정
+	
+	public void modifyBook(Book book); // 도서수정 
 
+	public void removeBook(String title, int amount); // 도서삭제
+	
 	public void sateTofile();
+
+
 
 }

@@ -10,10 +10,11 @@ public class User {
 
 	}
 
-	public User(String id, String pw) {
+	public User(String id, String pw, String phone) {
 		super();
 		this.id = id;
 		this.pw = pw;
+		this.phone = phone;
 	}
 
 	public String getId() {

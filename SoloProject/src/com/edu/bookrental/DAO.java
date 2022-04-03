@@ -14,6 +14,7 @@ public class DAO {
 	Statement stmt;
 	ResultSet rs;
 	PreparedStatement psmt;
+	public static String loginId;
 	
 	// getConnect 메소드
 	public Connection getConnect() {
@@ -23,7 +24,7 @@ public class DAO {
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		}
-		System.out.println("Connection.");
+		System.out.println();
 		return conn; // 만들어진 connection객체 리턴
 
 	}

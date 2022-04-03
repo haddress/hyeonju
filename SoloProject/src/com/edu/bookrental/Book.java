@@ -22,7 +22,7 @@ public class Book {
 	// ----------
 
 	// 생성자 -----
-	public Book(String iSBN, String category, String title, String writer, String bookCompany, int amount, String rentO,
+	public Book(String iSBN, String category, String title, String writer, String bookCompany, int amount, 
 			String uploader, String summary, String borrower) {
 		super();
 		ISBN = iSBN;
@@ -31,7 +31,6 @@ public class Book {
 		this.writer = writer;
 		this.bookCompany = bookCompany;
 		this.amount = amount;
-		this.rentO = rentO;
 		this.uploader = uploader;
 		this.summary = summary;
 		this.borrower = borrower;
@@ -142,6 +141,26 @@ public class Book {
 				+ "\t"+"[" + rentO + "]"+ "\n"
 				+ "\t-------------------------------------------------------------\n";
 		
+	}
+	
+	public String toRent() {
+		if (amount>0) {
+			rentO = "대여가능";
+		} else {
+			rentO = "대여불가";
+		}
+		
+		return "\t"+"-------------------------------------------------------------\n"
+				+ "\t" + category + " | " + title + " | " + writer + " | " + bookCompany +"\n"
+				+ "\t보유수량:  " + amount + "    [" + rentO + "]" + "\n"
+				+ "\t-------------------------------------------------------------\n";
+		
+	}
+	
+	public String toReturn() {
+		return "\t"+"-------------------------------------------------------------\n"
+				+ "\t" + category + " | " + title + " | " + writer + " | " + bookCompany +"\n"
+				+ "\t-------------------------------------------------------------\n";
 	}
 	
 	public String toSummary() {

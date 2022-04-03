@@ -4,14 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class BookRentApp {
+public class BookRentApp extends DAO {
 
 	// 도서컬렉션 필드
 	List<Book> books = new ArrayList<Book>();
 
 	Scanner scn = new Scanner(System.in);
-
-	static String loginId;
 
 	BookServiceImpl impl = new BookServiceImpl();
 
@@ -43,7 +41,7 @@ public class BookRentApp {
 					System.out.print("\t>> ");
 					String pw = scn.next();
 
-					User user = new User(id, pw);
+					User user = new User(id, pw, null);
 					service.join(user);
 					break;
 				}
@@ -99,7 +97,7 @@ public class BookRentApp {
 			} else if (menu == 2) { // 검색
 				System.out.println("");
 				System.out.println("\t-------------------------------------------------------------");
-				System.out.println("\t\t(1)도서명으로 검색        |       (2)카테고리별로 검색");
+				System.out.println("\t\t[   (1)도서명으로 검색      |     (2)카테고리별로 검색   ]");
 				System.out.print("\t선택>> ");
 				int menu2 = scn.nextInt();
 				System.out.println();
@@ -109,7 +107,7 @@ public class BookRentApp {
 					title = scn.nextLine();
 					System.out.println();
 					List<Book> book = service.getBook(null, title);
-					if (book == null) {
+					if (book == null) { // 수정필요
 						System.out.println("조회된 결과가 없습니다.");
 					} else {
 						System.out.println("도서가 검색되었습니다." + "\n");
@@ -133,8 +131,14 @@ public class BookRentApp {
 				}
 
 			} else if (menu == 3) { // 대여
-				System.out.println("\t대여하실 도서를 검색하세요.");
-				System.out.print("\t[검색] 도서명>> ");
+				System.out.println("\t[대여가능한 도서 목록]"+"\r");
+				List<Book> bookList = service.possibleList();
+				for (Book b : bookList) {
+					System.out.println(b.toRent());
+				}
+				System.out.println();
+				System.out.println("\t대여하실 도서명을 입력하세요.");
+				System.out.print("\t>> ");
 				String title = scn.nextLine();
 				title = scn.nextLine();
 				System.out.println();
@@ -162,8 +166,14 @@ public class BookRentApp {
 				}
 
 			} else if (menu == 4) { // 반납
-				System.out.println("\t대여하실 도서를 검색하세요.");
-				System.out.print("\t[검색] 도서명>> ");
+				System.out.println("\t[반납가능한 도서 목록]"+"\r");
+				List<Book> bookList = service.rentList();
+				for (Book b : bookList) {
+					System.out.println(b.toReturn());
+				}
+				System.out.println();
+				System.out.println("\t반납하실 도서명을 입력하세요.");
+				System.out.print("\t>> ");
 				String title = scn.nextLine();
 				title = scn.nextLine();
 				System.out.println();
@@ -181,7 +191,7 @@ public class BookRentApp {
 					int selec = scn.nextInt();
 					System.out.println();
 					if (selec == 1) {
-						service.returnBook(selec, title);
+						service.returnBook(selec, title); // 에러
 						System.out.println("반납이 완료되었습니다.");
 						System.out.println();
 					} else if (selec == 2) {
@@ -190,9 +200,75 @@ public class BookRentApp {
 				}
 
 			} else if (menu == 5) { // 도서등록
-
-			} else if (menu == 6) { // 마이페이지
-
+				System.out.println("\t-------------------------------------------------------------"+"\n");
+				System.out.print("\t등록할 도서의 제목>> ");
+				String title = scn.nextLine();
+				title = scn.nextLine();
+				System.out.print("\t저자>> ");
+				String writer = scn.next();
+				System.out.print("\tISBN>> ");
+				String ISBN = scn.next();
+				System.out.println("\t카테고리");
+				System.out.println("\t[   소설   |   에세이   |   인문  ]");
+				System.out.print("\t>> ");
+				String category = scn.next();
+				System.out.print("\t출판사>> ");
+				String bookCompany = scn.nextLine();
+				bookCompany = scn.nextLine();
+				System.out.println("\t도서소개");
+				System.out.print("\t>> ");
+				String summary = scn.nextLine();
+				summary = scn.nextLine();
+				System.out.print("\t수량>> ");
+				int amount = scn.nextInt();
+				String uploader = loginId;
+				String borrower = null;
+				
+				Book book = new Book(ISBN, category, title, writer, bookCompany, amount, uploader, summary, borrower);
+				service.insertBook(book);
+				System.out.println("도서가 등록되었습니다.");
+				
+			} else if (menu == 6) { // 마이페이지 -> 회원정보수정, 등록한 도서관리(목록,수정,삭제)
+				System.out.println("\t-------------------------------------------------------------");
+				System.out.println("\t\t\t[MY PAGE}    "+"\n");
+				System.out.println("\t\t[      (1)휴대폰 번호 수정       |       (2)도서관리      ]");
+				System.out.print("\t선택>> ");
+				int mypage = scn.nextInt();
+				if (mypage == 1) {
+					System.out.println("\t변경하실 휴대폰 번호를 입력하세요.");
+					System.out.print(">> ");
+					String phone = scn.next();
+					
+					User user = new User(null, null, phone);
+					service.modifyPhone(user);
+					System.out.println("수정이 완료되었습니다.");
+				} else if (mypage == 2) {
+					System.out.println("\t\t[    (1)등록도서목록    |    (2)도서정보수정    |    (3)도서삭제    ]");
+					System.out.print("\t선택>> ");
+					int admin = scn.nextInt();
+					if (admin == 1) {
+						List<Book> bookList = service.insertList();
+						for (Book b : bookList) {
+							System.out.println(b.toReturn());
+						}
+					} else if (admin == 2) {
+						System.out.println("\t변경할 도서 소개 내용을 입력하세요.");
+						System.out.print(">> ");
+						String summary = scn.nextLine();
+						summary = scn.nextLine();
+						
+						Book book = new Book(null, null, null, null, null, 0, null, summary, null);
+						service.modifyBook(book);
+						System.out.println("도서 수정이 완료되었습니다.");
+					} else if (admin == 3) {
+						System.out.println("\t삭제할 도서명을 입력하세요.");
+						System.out.print(">> ");
+						String title = scn.nextLine();
+						
+						service.removeBook(title, 0);
+						System.out.println("도서 삭제가 완료되었습니다.");
+					}
+				}
 			} else if (menu == 9) {
 				System.out.println("\t이용해주셔서 감사합니다.");
 				System.out.println();
