@@ -106,20 +106,19 @@ public class BookRentApp extends DAO {
 					String title = scn.nextLine();
 					title = scn.nextLine();
 					System.out.println();
-					List<Book> book = service.getBook(null, title);
+					Book book = service.getTitle(title); // 체크
 					if (book == null) { // 수정필요
 						System.out.println("조회된 결과가 없습니다.");
 					} else {
 						System.out.println("도서가 검색되었습니다." + "\n");
-						for (Book b : book) {
-							System.out.println(b.toString());
-						}
+						System.out.println(book.toString());
+						
 					}
 				} else if (menu2 == 2) {
 					System.out.print("\t[검색] 카테고리명>> ");
 					String category = scn.next();
 					System.out.println();
-					List<Book> book = service.getBook(category, null);
+					List<Book> book = service.getCategory(category);
 					if (book == null) {
 						System.out.println("조회된 결과가 없습니다.");
 					} else {
@@ -142,14 +141,12 @@ public class BookRentApp extends DAO {
 				String title = scn.nextLine();
 				title = scn.nextLine();
 				System.out.println();
-				List<Book> book = service.getBook(null, title);
+				Book book = service.getTitle(title); // 체크
 				if (book == null) {
 					System.out.println("조회된 결과가 없습니다.");
 				} else {
 					System.out.println("도서가 검색되었습니다." + "\n");
-					for (Book b : book) {
-						System.out.println(b.toString());
-					}
+					System.out.println(book.toString()); // 체크
 					System.out.println("\t대여하시겠습니까?");
 					System.out.println("\t①[예] | ②[아니오]");
 					System.out.print("\t>> ");
@@ -177,23 +174,27 @@ public class BookRentApp extends DAO {
 				String title = scn.nextLine();
 				title = scn.nextLine();
 				System.out.println();
-				List<Book> book = service.getBook(null, title);
+				Book book = service.getTitle(title); // 체크
 				if (book == null) {
 					System.out.println("조회된 결과가 없습니다.");
 				} else {
 					System.out.println("도서가 검색되었습니다." + "\n");
-					for (Book b : book) {
-						System.out.println(b.toString());
-					}
+					
+					System.out.println(book.toString()); // 체크
+					
 					System.out.println("\t반납하시겠습니까?");
 					System.out.println("\t①[예] | ②[아니오]");
 					System.out.print("\t>> ");
 					int selec = scn.nextInt();
 					System.out.println();
 					if (selec == 1) {
-						service.returnBook(selec, title); // 에러
-						System.out.println("반납이 완료되었습니다.");
-						System.out.println();
+							boolean tOrf = service.returnBook(title);
+							if (tOrf) {
+							System.out.println(tOrf + "건의 도서를 반납하였습니다.");
+							System.out.println();
+						} else {
+							System.out.println("반납 권한이 없습니다.");
+						}
 					} else if (selec == 2) {
 						continue;
 					}
@@ -236,7 +237,7 @@ public class BookRentApp extends DAO {
 				int mypage = scn.nextInt();
 				if (mypage == 1) {
 					System.out.println("\t변경하실 휴대폰 번호를 입력하세요.");
-					System.out.print(">> ");
+					System.out.print("\t>> ");
 					String phone = scn.next();
 					
 					User user = new User(null, null, phone);
@@ -251,7 +252,7 @@ public class BookRentApp extends DAO {
 						for (Book b : bookList) {
 							System.out.println(b.toReturn());
 						}
-					} else if (admin == 2) {
+					} else if (admin == 2) { // 수정하기
 						System.out.println("\t변경할 도서 소개 내용을 입력하세요.");
 						System.out.print(">> ");
 						String summary = scn.nextLine();
@@ -260,12 +261,12 @@ public class BookRentApp extends DAO {
 						Book book = new Book(null, null, null, null, null, 0, null, summary, null);
 						service.modifyBook(book);
 						System.out.println("도서 수정이 완료되었습니다.");
-					} else if (admin == 3) {
+					} else if (admin == 3) { // 수정하기
 						System.out.println("\t삭제할 도서명을 입력하세요.");
 						System.out.print(">> ");
 						String title = scn.nextLine();
 						
-						service.removeBook(title, 0);
+						service.removeBook(title, 0, loginId);
 						System.out.println("도서 삭제가 완료되었습니다.");
 					}
 				}

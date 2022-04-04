@@ -6,7 +6,6 @@ import java.util.List;
 
 public class BookServiceImpl extends DAO implements BookService {
 
-
 	@Override
 	public void join(User user) { // 회원가입
 		conn = getConnect();
@@ -102,26 +101,13 @@ public class BookServiceImpl extends DAO implements BookService {
 	}
 
 	@Override
-	public List<Book> getBook(String category, String title) { // 도서검색
-		List<Book> searchList = new ArrayList<Book>();
-
+	public Book getTitle(String title) { // 제목검색
 		conn = getConnect();
 		Book book = null;
-		String sql = "SELECT*FROM book_list ";
-		sql += "WHERE 1=1 ";
-		if (title != null)
-			sql += " and title = ?";
-		if (category != null)
-			sql += " and category = ?";
-		int cnt = 0;
+		String sql = "SELECT * FROM book_list " + "WHERE title = ?";
 		try {
 			psmt = conn.prepareStatement(sql);
-
-			if (title != null)
-				psmt.setString(++cnt, title);
-
-			if (category != null)
-				psmt.setString(++cnt, category);
+			psmt.setString(1, title);
 
 			rs = psmt.executeQuery();
 			while (rs.next()) {
@@ -133,16 +119,90 @@ public class BookServiceImpl extends DAO implements BookService {
 				book.setBookCompany(rs.getString("book_company"));
 				book.setAmount(rs.getInt("amount"));
 				book.setUploader(rs.getString("uploader"));
-
-				searchList.add(book);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			disconnect();
 		}
-		return searchList;
+		return book;
 	}
+	
+
+	@Override
+	public List<Book> getCategory(String category) { // 카테고리검색
+		List<Book> searchCate = new ArrayList<Book>();
+
+		conn = getConnect();
+		
+		String sql = "SELECT * FROM book_list " + "WHERE category = ?";
+		try {
+			psmt = conn.prepareStatement(sql);
+			psmt.setString(1, category);
+
+			rs = psmt.executeQuery();
+			while (rs.next()) {
+				Book book = new Book();
+				book.setISBN(rs.getString("isbn"));
+				book.setCategory(rs.getString("category"));
+				book.setTitle(rs.getString("title"));
+				book.setWriter(rs.getString("writer"));
+				book.setBookCompany(rs.getString("book_company"));
+				book.setAmount(rs.getInt("amount"));
+				book.setUploader(rs.getString("uploader"));
+
+				searchCate.add(book);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			disconnect();
+		}
+		return searchCate;
+	}
+
+//	@Override
+//	public List<Book> getBook(String category, String title) { // 
+//		List<Book> searchList = new ArrayList<Book>();
+//
+//		conn = getConnect();
+//		Book book = null;
+//		String sql = "SELECT*FROM book_list ";
+//		sql += "WHERE 1=1 ";
+//		if (title != null)
+//			sql += " and title = ?";
+//		if (category != null)
+//			sql += " and category = ?";
+//		int cnt = 0;
+//		try {
+//			psmt = conn.prepareStatement(sql);
+//
+//			if (title != null)
+//				psmt.setString(++cnt, title);
+//
+//			if (category != null)
+//				psmt.setString(++cnt, category);
+//
+//			rs = psmt.executeQuery();
+//			while (rs.next()) {
+//				book = new Book();
+//				book.setISBN(rs.getString("isbn"));
+//				book.setCategory(rs.getString("category"));
+//				book.setTitle(rs.getString("title"));
+//				book.setWriter(rs.getString("writer"));
+//				book.setBookCompany(rs.getString("book_company"));
+//				book.setAmount(rs.getInt("amount"));
+//				book.setUploader(rs.getString("uploader"));
+//
+//				searchList.add(book);
+//			}
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		} finally {
+//			disconnect();
+//		}
+//		return searchList;
+//	}
 
 	@Override
 	public void rentBook(int amount, String title, String borrower) { // 도서대여
@@ -201,28 +261,25 @@ public class BookServiceImpl extends DAO implements BookService {
 	}
 
 	@Override
-	public void returnBook(int amount, String title) { // 도서반납
+	public boolean returnBook(String title) { // 도서반납
 		conn = getConnect();
-		String sql = "update book_list " + "set amount =amount+1, borrower=null " + "where title = ?";
+		String sql = "UPDATE book_list " + "SET amount = amount+1, borrower=null "
+				+ "WHERE isbn = (SELECT b.isbn FROM book_list b join app_member a on (b.borrower = a.id) WHERE title = ?)";
 		try {
 			psmt = conn.prepareStatement(sql);
-			while (true) {
-				if (rs.getString("borrower").equals(loginId)) { // 에러
-					psmt.setString(1, title);
+			psmt.setString(1, title);
 
-					int r = psmt.executeUpdate();
-					System.out.println(r + "건의 도서를 반납하였습니다.");
-					break;
-				} else {
-					System.out.println("반납 권한이 없습니다.");
-					continue;
-				}
+			int r = psmt.executeUpdate();
+
+			if (r > 0) {
+				return true;
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			disconnect();
 		}
+		return false;
 
 	}
 
@@ -281,7 +338,7 @@ public class BookServiceImpl extends DAO implements BookService {
 		}
 
 	}
-	
+
 	@Override
 	public List<Book> insertList() { // 등록한 도서 목록
 		List<Book> bookList = new ArrayList<Book>();
@@ -299,7 +356,7 @@ public class BookServiceImpl extends DAO implements BookService {
 				book.setWriter(rs.getString("writer"));
 				book.setBookCompany(rs.getString("book_company"));
 				book.setAmount(rs.getInt("amount"));
-				book.setUploader(rs.getString("uploader"));
+				book.setUploader(loginId);
 
 				bookList.add(book);
 			}
@@ -313,7 +370,7 @@ public class BookServiceImpl extends DAO implements BookService {
 	}
 
 	@Override
-	public void modifyPhone(User user) { // 회원정보수정
+	public void modifyPhone(User user) { // 회원정보수정 !! 수정
 		conn = getConnect();
 		String sql = "UPDATE app_member " + "SET phone=? " + "WHERE id=?";
 		try {
@@ -340,7 +397,7 @@ public class BookServiceImpl extends DAO implements BookService {
 	}
 
 	@Override
-	public void modifyBook(Book book) { // 도서수정
+	public void modifyBook(Book book) { // 도서수정 !! 수정
 		conn = getConnect();
 		String sql = "UPDATE book_list " + "SET summary=? " + "WHERE title=?";
 		try {
@@ -366,12 +423,10 @@ public class BookServiceImpl extends DAO implements BookService {
 	}
 
 	@Override
-	public void removeBook(String title, int amount) { // 도서삭제
+	public void removeBook(String title, int amount, String loginId) { // 도서삭제 !! 수정
 		conn = getConnect();
-		if(amount > 0) {
-			String sql = "UPDATE book_list "
-					+ "set amount=amount-1 "
-					+ "WHERE title = ?";
+		if (amount > 0) {
+			String sql = "UPDATE book_list " + "set amount=amount-1 " + "WHERE title = ?";
 			try {
 				psmt = conn.prepareStatement(sql);
 				while (true) {
@@ -415,12 +470,9 @@ public class BookServiceImpl extends DAO implements BookService {
 		}
 	}
 
-
 	@Override
 	public void sateTofile() { // 저장
 
 	}
-
-	
 
 }
