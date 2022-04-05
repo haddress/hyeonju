@@ -10,29 +10,33 @@ public interface BookService {
 	
 	public int logIn(String id, String pw); // 로그인
 
-	public List<Book> bookList(); // 도서전체목록
+	public List<Book> bookList(Book book); // 도서전체목록
 	
-	public Book getTitle(String title); // 제목검색
-
-	public List<Book> getCategory(String category); // 카테고리 검색
-
-	public void rentBook(int amount, String title, String borrower); // 도서대여
+	public void summaryLook(Book book); // 도서상세보기
 	
-	public List<Book> possibleList(); // 대여가능한 목록
+//	public Book searchTitle(String title); // 제목검색
+
+//	public List<Book> searchCategory(String category); // 카테고리 검색
+
+	public void rentBook(String title, String borrower); // 도서대여
+	
+//	public List<Book> possibleList(); // 대여가능한 목록
 
 	public boolean returnBook(String title); // 도서반납
 	
-	public List<Book> rentList(); // 대여한 목록
+//	public List<Book> rentList(); // 대여한 목록
 
 	public void insertBook(Book book); // 도서등록
 	
-	public List<Book> insertList(); // 등록한도서목록
+//	public List<Book> insertList(); // 등록한도서목록
 
-	public void modifyPhone(User user); // 회원정보수정
+	public int checkPw(String pw);
 	
-	public void modifyBook(Book book); // 도서수정 
+	public void modifyPhone(String phone); // 회원정보수정
+	
+	public boolean modifyBook(String summary, String title); // 도서수정 
 
-	public void removeBook(String title, int amount, String loginId); // 도서삭제
+	public boolean removeBook(String title, int amount); // 도서삭제
 	
 	public void sateTofile();
 
