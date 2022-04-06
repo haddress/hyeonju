@@ -3,7 +3,7 @@ package com.edu.bookrental;
 public class Book {
 
 	// 필드 ------
-	private String ISBN;
+	private int ISBN;
 	private String category;
 	private String title;
 	private String writer;
@@ -22,7 +22,7 @@ public class Book {
 	// ----------
 
 	// 생성자 -----
-	public Book(String iSBN, String category, String title, String writer, String bookCompany, int amount, 
+	public Book(int iSBN, String category, String title, String writer, String bookCompany, int amount, 
 			String uploader, String summary, String borrower) {
 		super();
 		ISBN = iSBN;
@@ -38,11 +38,11 @@ public class Book {
 	// ----------
 
 	// 겟셋메소드 --
-	public String getISBN() {
+	public int getISBN() {
 		return ISBN;
 	}
 
-	public void setISBN(String iSBN) {
+	public void setISBN(int iSBN) {
 		ISBN = iSBN;
 	}
 
@@ -125,21 +125,7 @@ public class Book {
 	@Override
 	public String toString() {
 		
-		if (amount>0) {
-			rentO = "대여가능";
-		} else {
-			rentO = "대여불가";
-		}
-		
-		return "\t"+"-------------------------------------------------------------\n"
-				+ "\tISBN:  " + ISBN + "\n"
-				+ "\t카테고리:  " + category + "\n"
-				+ "\t도서명:  " + title + "\n"
-				+ "\t저자:  " + writer + "\n"
-				+ "\t출판사:  " + bookCompany + "\n"
-				+ "\t보유수량:  " + amount + "\n"
-				+ "\t"+"[" + rentO + "]"+ "\n"
-				+ "\t-------------------------------------------------------------\n";
+		return String.format("\t%-5d%-8s%-20s%-12s%-2s\n", ISBN, category, title, writer, bookCompany);
 		
 	}
 	
@@ -150,25 +136,18 @@ public class Book {
 			rentO = "대여불가";
 		}
 		
-		return "\t"+"-------------------------------------------------------------\n"
-				+ "\t" + category + " | " + title + " | " + writer + " | " + bookCompany +"\n"
-				+ "\t보유수량:  " + amount + "    [" + rentO + "]" + "\n"
-				+ "\t-------------------------------------------------------------\n";
+		return String.format("\t%-8s%-18s%-10s%-10s%-2s%-8s\n", category, title, writer, bookCompany, amount, rentO);
 		
 	}
 	
 	public String toReturn() {
-		return "\t"+"-------------------------------------------------------------\n"
-				+ "\t" + category + " | " + title + " | " + writer + " | " + bookCompany +"\n"
-				+ "\t-------------------------------------------------------------\n";
+		
+		return String.format("\t%-12s%-24s%-14s%-16s\n", category, title, writer, bookCompany);
+		
 	}
 	
 	public String toSummary() {
-		return "\t"+"-------------------------------------------------------------\n"
-				+ "\t" + category + " | " + title + " | " + writer + " | " + bookCompany +"\n"
-				+ "책 소개: " + "\n"
-				+ summary + "\n"
-				+ "\t-------------------------------------------------------------\n";
+		return String.format("\t%-12s%-24s%-14s%-16s\n\n\t%-150s\n", category, title, writer, bookCompany, summary);
 		
 	}
 	
