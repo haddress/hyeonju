@@ -41,4 +41,8 @@ public class User {
 		this.phone = phone;
 	}
 
+	public String toInfo() {
+		return "\tID: " + id + "\n" + "\tPHONE: " + phone;
+	}
+
 }

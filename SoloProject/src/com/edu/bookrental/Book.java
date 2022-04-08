@@ -136,13 +136,13 @@ public class Book {
 			rentO = "대여불가";
 		}
 		
-		return String.format("\t%-8s%-18s%-10s%-10s%-2s%-8s\n", category, title, writer, bookCompany, amount, rentO);
+		return String.format("\t%-5d%-8s%-18s%-10s%-10s%-2s%-8s\n", ISBN, category, title, writer, bookCompany, amount, rentO);
 		
 	}
 	
 	public String toReturn() {
 		
-		return String.format("\t%-12s%-24s%-14s%-16s\n", category, title, writer, bookCompany);
+		return String.format("\t%-5d%-10s%-20s%-12s%-12s\n", ISBN, category, title, writer, bookCompany);
 		
 	}
 	
@@ -150,5 +150,7 @@ public class Book {
 		return String.format("\t%-12s%-24s%-14s%-16s\n\n\t%-150s\n", category, title, writer, bookCompany, summary);
 		
 	}
+	
+
 	
 }
